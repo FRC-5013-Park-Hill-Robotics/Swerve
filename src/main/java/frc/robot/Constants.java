@@ -34,5 +34,13 @@ public final class Constants {
         public static final SwerveModuleConfig FRONT_RIGHT = new SwerveModuleConfig(4, 5, 6, 0, GearRatio.L2);
         public static final SwerveModuleConfig BACK_LEFT = new SwerveModuleConfig(7, 8, 9, 0, GearRatio.L2);
         public static final SwerveModuleConfig BACK_RIGHT = new SwerveModuleConfig(10, 11, 12, 0, GearRatio.L2);
+        
+        public static final class TurnGains {
+            public static final double kP = .2;
+            public static final double kI = 0;
+            public static final double kD = 0;
+            public static final double kTurnToleranceRad = 0.025;
+            public static final double kTurnRateToleranceRadPerS = .17;
         }
+    }
 }
