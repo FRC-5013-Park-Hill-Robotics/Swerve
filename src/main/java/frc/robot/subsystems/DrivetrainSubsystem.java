@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -105,6 +106,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     .withPosition(6, 0),
             BACK_RIGHT
     );
+
   }
 
   /**
@@ -118,6 +120,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public Rotation2d getGyroscopeRotation() {
     return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
+  }
+
+  public double getHeading() {
+    return getGyroscopeRotation().getRadians();
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
