@@ -30,11 +30,36 @@ public final class Constants {
         public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
 
         public static final int PIGEON_ID = 0; // FIXME Set Pigeon ID
-        public static final SwerveModuleConfig FRONT_LEFT = new SwerveModuleConfig(1, 2, 3, 0, GearRatio.L2);
-        public static final SwerveModuleConfig FRONT_RIGHT = new SwerveModuleConfig(4, 5, 6, 0, GearRatio.L2);
-        public static final SwerveModuleConfig BACK_LEFT = new SwerveModuleConfig(7, 8, 9, 0, GearRatio.L2);
-        public static final SwerveModuleConfig BACK_RIGHT = new SwerveModuleConfig(10, 11, 12, 0, GearRatio.L2);
-        
+
+        public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2; 
+        public static final class FrontLeftSwerveConstants{
+            public static final int STEER_MOTOR_ID = 1;
+            public static final int DRIVE_MOTOR_ID = 2;
+            public static final int ENCODER_ID = 3;
+            public static final double OFFSET = 0;
+        }
+
+        public static final class FrontRightSwerveConstants{
+            public static final int STEER_MOTOR_ID = 4;
+            public static final int DRIVE_MOTOR_ID = 5;
+            public static final int ENCODER_ID = 6;
+            public static final double OFFSET = 0;
+        }
+
+        public static final class BackLeftSwerveConstants{
+            public static final int STEER_MOTOR_ID = 7;
+            public static final int DRIVE_MOTOR_ID = 8;
+            public static final int ENCODER_ID = 9;
+            public static final double OFFSET = 0;
+        }
+
+        public static final class BackRightSwerveConstants{
+            public static final int STEER_MOTOR_ID = 10;
+            public static final int DRIVE_MOTOR_ID = 11;
+            public static final int ENCODER_ID = 12;
+            public static final double OFFSET = 0;
+        }
+
         public static final class TurnGains {
             public static final double kP = .2;
             public static final double kI = 0;

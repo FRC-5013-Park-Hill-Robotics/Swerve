@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -17,7 +18,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.SwerveModuleUtilities;
 
 import static frc.robot.Constants.DrivetrainConstants.*;
 
@@ -78,35 +78,45 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-    m_frontLeftModule = SwerveModuleUtilities.createFalcon500(
-            // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
-            tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(0, 0),
-            FRONT_LEFT
-    );
+    m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+                .withSize(2, 4)
+                .withPosition(0, 0),
+        SWERVE_GEAR_RATIO,
+        FrontLeftSwerveConstants.DRIVE_MOTOR_ID,
+        FrontLeftSwerveConstants.STEER_MOTOR_ID,
+        FrontLeftSwerveConstants.ENCODER_ID,
+        FrontLeftSwerveConstants.ENCODER_ID) ;
 
-    m_frontRightModule = SwerveModuleUtilities.createFalcon500(
-            tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(2, 0),
-            FRONT_RIGHT
-    );
+    m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+                .withSize(2, 4)
+                .withPosition(2, 0),
+        SWERVE_GEAR_RATIO,
+        FrontRightSwerveConstants.DRIVE_MOTOR_ID,
+        FrontRightSwerveConstants.STEER_MOTOR_ID,
+        FrontRightSwerveConstants.ENCODER_ID,
+        FrontRightSwerveConstants.ENCODER_ID) ;
 
-    m_backLeftModule = SwerveModuleUtilities.createFalcon500(
-            tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(4, 0),
-            BACK_LEFT
-    );
+    m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+        tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                .withSize(2, 4)
+                .withPosition(4, 0),
+                SWERVE_GEAR_RATIO,
+        BackLeftSwerveConstants.DRIVE_MOTOR_ID,
+        BackLeftSwerveConstants.STEER_MOTOR_ID,
+        BackLeftSwerveConstants.ENCODER_ID,
+        BackLeftSwerveConstants.ENCODER_ID) ;
 
-    m_backRightModule = SwerveModuleUtilities.createFalcon500(
+    m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
             tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                    .withSize(2, 4)
-                    .withPosition(6, 0),
-            BACK_RIGHT
-    );
-
+                .withSize(2, 4)
+                .withPosition(6, 0),
+        SWERVE_GEAR_RATIO,
+        BackRightSwerveConstants.DRIVE_MOTOR_ID,
+        BackRightSwerveConstants.STEER_MOTOR_ID,
+        BackRightSwerveConstants.ENCODER_ID,
+        BackRightSwerveConstants.ENCODER_ID) ;
   }
 
   /**
