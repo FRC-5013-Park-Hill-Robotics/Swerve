@@ -47,6 +47,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // cause the angle reading to increase until it wraps back over to zero.
     private final PigeonIMU m_pigeon = new PigeonIMU(PIGEON_ID);
 
+    
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
     private final SwerveModule m_frontRightModule;
@@ -54,6 +55,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+    private SwerveModuleState[] m_desiredStates = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
 
     public DrivetrainSubsystem() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -103,16 +105,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
-        m_chassisSpeeds = chassisSpeeds;
+        m_desiredStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
     }
 
+    public void setDesiredStates(SwerveModuleState[] newStates){
+        m_desiredStates = newStates;
+    }
     @Override
     public void periodic() {
-        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        setModuleStates(states);
+        updateDriveStates(m_desiredStates);
     }
 
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
+    public void updateDriveStates(SwerveModuleState[] desiredStates) {
         SwerveModuleState frontLeftState = desiredStates[FrontLeftSwerveConstants.STATES_INDEX];
         SwerveModuleState frontRightState = desiredStates[FrontRightSwerveConstants.STATES_INDEX];
         SwerveModuleState backLeftState = desiredStates[BackLeftSwerveConstants.STATES_INDEX];
@@ -131,7 +135,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         m_pose = m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,
                backRightState);  
-      }
+    }
 
     public Pose2d getPose(){
         return m_pose;
