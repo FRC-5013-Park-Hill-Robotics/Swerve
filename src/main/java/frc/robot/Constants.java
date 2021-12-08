@@ -4,56 +4,83 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final class DrivetrainConstants{
-         /**
+    public static final int FALCON_500_MAX_RPM = 6380;
+
+    public static final class DrivetrainConstants {
+        /**
          * The left-to-right distance between the drivetrain wheels
-         *
          * Should be measured from center to center.
          */
         public static final double TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
         /**
          * The front-to-back distance between the drivetrain wheels.
-         *
          * Should be measured from center to center.
          */
         public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
+        /**
+         * The maximum voltage that will be delivered to the drive motors.
+         * <p>
+         * This can be reduced to cap the robot's maximum speed. Typically, this is
+         * useful during initial testing of the robot.
+         */
+        public static final double MAX_VOLTAGE = 12.0;
 
+        /**
+         * The maximum velocity of the robot in meters per second.
+         * <p>
+         * This is a measure of how fast the robot should be able to drive in a straight
+         * line.
+         */
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = FALCON_500_MAX_RPM / 60.0
+                * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
+                * Math.PI;
+        /**
+         * The maximum angular velocity of the robot in radians per second.
+         * <p>
+         * This is a measure of how fast the robot can rotate in place.
+         */
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
+                / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
         public static final int PIGEON_ID = 0; // FIXME Set Pigeon ID
 
-        public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2; 
-        public static final class FrontLeftSwerveConstants{
+        public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;
+
+        public static final class FrontLeftSwerveConstants {
             public static final int STEER_MOTOR_ID = 1;
             public static final int DRIVE_MOTOR_ID = 2;
             public static final int ENCODER_ID = 3;
             public static final double OFFSET = 0;
         }
 
-        public static final class FrontRightSwerveConstants{
+        public static final class FrontRightSwerveConstants {
             public static final int STEER_MOTOR_ID = 4;
             public static final int DRIVE_MOTOR_ID = 5;
             public static final int ENCODER_ID = 6;
             public static final double OFFSET = 0;
         }
 
-        public static final class BackLeftSwerveConstants{
+        public static final class BackLeftSwerveConstants {
             public static final int STEER_MOTOR_ID = 7;
             public static final int DRIVE_MOTOR_ID = 8;
             public static final int ENCODER_ID = 9;
             public static final double OFFSET = 0;
         }
 
-        public static final class BackRightSwerveConstants{
+        public static final class BackRightSwerveConstants {
             public static final int STEER_MOTOR_ID = 10;
             public static final int DRIVE_MOTOR_ID = 11;
             public static final int ENCODER_ID = 12;
