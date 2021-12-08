@@ -22,13 +22,13 @@ public final class Constants {
 
     public static final class DrivetrainConstants {
         /**
-         * The left-to-right distance between the drivetrain wheels
-         * Should be measured from center to center.
+         * The left-to-right distance between the drivetrain wheels Should be measured
+         * from center to center.
          */
         public static final double TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
         /**
-         * The front-to-back distance between the drivetrain wheels.
-         * Should be measured from center to center.
+         * The front-to-back distance between the drivetrain wheels. Should be measured
+         * from center to center.
          */
         public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
         /**
@@ -64,6 +64,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR_ID = 2;
             public static final int ENCODER_ID = 3;
             public static final double OFFSET = 0;
+            public static final int STATES_INDEX = 0;
         }
 
         public static final class FrontRightSwerveConstants {
@@ -71,6 +72,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR_ID = 5;
             public static final int ENCODER_ID = 6;
             public static final double OFFSET = 0;
+            public static final int STATES_INDEX = 1;
         }
 
         public static final class BackLeftSwerveConstants {
@@ -78,6 +80,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR_ID = 8;
             public static final int ENCODER_ID = 9;
             public static final double OFFSET = 0;
+            public static final int STATES_INDEX = 2;
         }
 
         public static final class BackRightSwerveConstants {
@@ -85,6 +88,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR_ID = 11;
             public static final int ENCODER_ID = 12;
             public static final double OFFSET = 0;
+            public static final int STATES_INDEX = 3;
         }
 
         public static final class TurnGains {
@@ -94,5 +98,6 @@ public final class Constants {
             public static final double kTurnToleranceRad = 0.025;
             public static final double kTurnRateToleranceRadPerS = .17;
         }
+
     }
 }
