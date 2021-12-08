@@ -91,7 +91,17 @@ public final class Constants {
             public static final int STATES_INDEX = 3;
         }
 
-        public static final class TurnGains {
+        //Turning the bot gains
+        public static final class ThetaGains {
+            public static final double kP = .2;
+            public static final double kI = 0;
+            public static final double kD = 0;
+            public static final double kTurnToleranceRad = 0.025;
+            public static final double kTurnRateToleranceRadPerS = .17;
+        }
+
+        //Driving the bot gains
+        public static final class TranslationGains {
             public static final double kP = .2;
             public static final double kI = 0;
             public static final double kD = 0;
