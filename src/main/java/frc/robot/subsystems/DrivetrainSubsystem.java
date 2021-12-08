@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -35,10 +34,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // Back right
             new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0));
 
+    //FIX We need to figure out initial possition.
+    private Pose2d m_pose = new Pose2d();
     private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(),
-            new Pose2d(5.0, 13.5, new Rotation2d()));
+            m_pose);
 
-
+    
     // By default we use a Pigeon for our gyroscope. But if you use another
     // gyroscope, like a NavX, you can change this.
     // The important thing about how you configure your gyroscope is that rotating
@@ -76,6 +77,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6, 0),
                 SWERVE_GEAR_RATIO, BackRightSwerveConstants.DRIVE_MOTOR_ID, BackRightSwerveConstants.STEER_MOTOR_ID,
                 BackRightSwerveConstants.ENCODER_ID, BackRightSwerveConstants.OFFSET);
+
+        
     }
 
     /**
@@ -88,6 +91,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
     public void resetPosition(Pose2d newPosition, Rotation2d newRotation) {
         m_odometry.resetPosition(newPosition, newRotation);
+        m_pose = m_odometry.getPoseMeters();
     }
 
     public Rotation2d getGyroscopeRotation() {
@@ -105,23 +109,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-        SwerveModuleState frontLeftState = states[FrontLeftSwerveConstants.STATES_INDEX];
-        SwerveModuleState frontRightState = states[FrontRightSwerveConstants.STATES_INDEX];
-        SwerveModuleState backLeftState = states[BackLeftSwerveConstants.STATES_INDEX];
-        SwerveModuleState backRightState = states[BackRightSwerveConstants.STATES_INDEX];
+        setModuleStates(states);
+    }
 
-        SwerveDriveKinematics.normalizeWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
+        SwerveModuleState frontLeftState = desiredStates[FrontLeftSwerveConstants.STATES_INDEX];
+        SwerveModuleState frontRightState = desiredStates[FrontRightSwerveConstants.STATES_INDEX];
+        SwerveModuleState backLeftState = desiredStates[BackLeftSwerveConstants.STATES_INDEX];
+        SwerveModuleState backRightState = desiredStates[BackRightSwerveConstants.STATES_INDEX];
+
+        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, MAX_VELOCITY_METERS_PER_SECOND);
 
         m_frontLeftModule.set(frontLeftState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
-                states[0].angle.getRadians());
+                frontLeftState.angle.getRadians());
         m_frontRightModule.set(frontRightState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
-                states[1].angle.getRadians());
+                frontRightState.angle.getRadians());
         m_backLeftModule.set(backLeftState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
-                states[2].angle.getRadians());
+                backLeftState.angle.getRadians());
         m_backRightModule.set(backRightState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
-                states[3].angle.getRadians());
+                backRightState.angle.getRadians());
 
-        m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,
-               backRightState);       
+        m_pose = m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,
+               backRightState);  
+      }
+
+    public Pose2d getPose(){
+        return m_pose;
     }
 }
