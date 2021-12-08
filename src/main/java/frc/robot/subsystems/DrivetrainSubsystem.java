@@ -60,22 +60,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0),
                 SWERVE_GEAR_RATIO, FrontLeftSwerveConstants.DRIVE_MOTOR_ID, FrontLeftSwerveConstants.STEER_MOTOR_ID,
-                FrontLeftSwerveConstants.ENCODER_ID, FrontLeftSwerveConstants.ENCODER_ID);
+                FrontLeftSwerveConstants.ENCODER_ID, FrontLeftSwerveConstants.OFFSET);
 
         m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Front Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(2, 0),
                 SWERVE_GEAR_RATIO, FrontRightSwerveConstants.DRIVE_MOTOR_ID, FrontRightSwerveConstants.STEER_MOTOR_ID,
-                FrontRightSwerveConstants.ENCODER_ID, FrontRightSwerveConstants.ENCODER_ID);
+                FrontRightSwerveConstants.ENCODER_ID, FrontRightSwerveConstants.OFFSET);
 
         m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Back Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(4, 0),
                 SWERVE_GEAR_RATIO, BackLeftSwerveConstants.DRIVE_MOTOR_ID, BackLeftSwerveConstants.STEER_MOTOR_ID,
-                BackLeftSwerveConstants.ENCODER_ID, BackLeftSwerveConstants.ENCODER_ID);
+                BackLeftSwerveConstants.ENCODER_ID, BackLeftSwerveConstants.OFFSET);
 
         m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(6, 0),
                 SWERVE_GEAR_RATIO, BackRightSwerveConstants.DRIVE_MOTOR_ID, BackRightSwerveConstants.STEER_MOTOR_ID,
-                BackRightSwerveConstants.ENCODER_ID, BackRightSwerveConstants.ENCODER_ID);
+                BackRightSwerveConstants.ENCODER_ID, BackRightSwerveConstants.OFFSET);
     }
 
     /**
@@ -89,6 +89,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void resetPosition(Pose2d newPosition, Rotation2d newRotation) {
         m_odometry.resetPosition(newPosition, newRotation);
     }
+
     public Rotation2d getGyroscopeRotation() {
         return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
     }
