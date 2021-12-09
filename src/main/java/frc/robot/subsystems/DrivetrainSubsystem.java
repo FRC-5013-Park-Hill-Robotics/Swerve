@@ -4,12 +4,17 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
+import static frc.robot.Constants.DrivetrainConstants.MAX_VOLTAGE;
+import static frc.robot.Constants.DrivetrainConstants.PIGEON_ID;
+import static frc.robot.Constants.DrivetrainConstants.SWERVE_GEAR_RATIO;
+import static frc.robot.Constants.DrivetrainConstants.TRACKWIDTH_METERS;
+import static frc.robot.Constants.DrivetrainConstants.WHEELBASE_METERS;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -20,13 +25,11 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-
-import static frc.robot.Constants.DrivetrainConstants.*;
+import frc.robot.Constants.DrivetrainConstants.BackLeftSwerveConstants;
+import frc.robot.Constants.DrivetrainConstants.BackRightSwerveConstants;
+import frc.robot.Constants.DrivetrainConstants.FrontLeftSwerveConstants;
+import frc.robot.Constants.DrivetrainConstants.FrontRightSwerveConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -147,23 +150,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public SwerveDriveKinematics getKinematics() {
         return m_kinematics;
-    }
-
-    public SwerveControllerCommand createSwerveControllerCommand(Trajectory trajectory) {
-        Constraints constraints = new TrapezoidProfile.Constraints(
-            ThetaGains.kTurnToleranceRad, ThetaGains.kTurnRateToleranceRadPerS);
-        ProfiledPIDController thetaController = new ProfiledPIDController(ThetaGains.kP, ThetaGains.kI, ThetaGains.kD,
-        constraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(trajectory,
-                this::getPose, 
-                m_kinematics,
-                new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD),
-                new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD), 
-                thetaController,
-                this::setDesiredStates,
-                this);
-        return swerveControllerCommand;
     }
 }
