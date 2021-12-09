@@ -8,6 +8,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -18,7 +20,11 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 import static frc.robot.Constants.DrivetrainConstants.*;
 
@@ -34,12 +40,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // Back right
             new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0));
 
-    //FIX We need to figure out initial possition.
+    // FIX We need to figure out initial possition.
     private Pose2d m_pose = new Pose2d();
-    private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(),
-            m_pose);
+    private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), m_pose);
 
-    
     // By default we use a Pigeon for our gyroscope. But if you use another
     // gyroscope, like a NavX, you can change this.
     // The important thing about how you configure your gyroscope is that rotating
@@ -47,7 +51,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // cause the angle reading to increase until it wraps back over to zero.
     private final PigeonIMU m_pigeon = new PigeonIMU(PIGEON_ID);
 
-    
     // These are our modules. We initialize them in the constructor.
     private final SwerveModule m_frontLeftModule;
     private final SwerveModule m_frontRightModule;
@@ -80,7 +83,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SWERVE_GEAR_RATIO, BackRightSwerveConstants.DRIVE_MOTOR_ID, BackRightSwerveConstants.STEER_MOTOR_ID,
                 BackRightSwerveConstants.ENCODER_ID, BackRightSwerveConstants.OFFSET);
 
-        
     }
 
     /**
@@ -91,6 +93,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_pigeon.setFusedHeading(0.0);
 
     }
+
     public void resetPosition(Pose2d newPosition, Rotation2d newRotation) {
         m_odometry.resetPosition(newPosition, newRotation);
         m_pose = m_odometry.getPoseMeters();
@@ -108,9 +111,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_desiredStates = m_kinematics.toSwerveModuleStates(chassisSpeeds);
     }
 
-    public void setDesiredStates(SwerveModuleState[] newStates){
+    public void setDesiredStates(SwerveModuleState[] newStates) {
         m_desiredStates = newStates;
     }
+
     @Override
     public void periodic() {
         updateDriveStates(m_desiredStates);
@@ -134,10 +138,32 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightState.angle.getRadians());
 
         m_pose = m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,
-               backRightState);  
+                backRightState);
     }
 
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return m_pose;
+    }
+
+    public SwerveDriveKinematics getKinematics() {
+        return m_kinematics;
+    }
+
+    public SwerveControllerCommand createSwerveControllerCommand(Trajectory trajectory) {
+        Constraints constraints = new TrapezoidProfile.Constraints(
+            ThetaGains.kTurnToleranceRad, ThetaGains.kTurnRateToleranceRadPerS);
+        ProfiledPIDController thetaController = new ProfiledPIDController(ThetaGains.kP, ThetaGains.kI, ThetaGains.kD,
+        constraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(trajectory,
+                this::getPose, 
+                m_kinematics,
+                new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD),
+                new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD), 
+                thetaController,
+                this::setDesiredStates,
+                this);
+        return swerveControllerCommand;
     }
 }
