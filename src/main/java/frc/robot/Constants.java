@@ -20,17 +20,10 @@ import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
 public final class Constants {
     public static final int FALCON_500_MAX_RPM = 6380;
 
+
     public static final class DrivetrainConstants {
-        /**
-         * The left-to-right distance between the drivetrain wheels Should be measured
-         * from center to center.
-         */
-        public static final double TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
-        /**
-         * The front-to-back distance between the drivetrain wheels. Should be measured
-         * from center to center.
-         */
-        public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
+        public static final int PIGEON_ID = 0; // FIXME Set Pigeon ID
+        public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;
         /**
          * The maximum voltage that will be delivered to the drive motors.
          * <p>
@@ -38,26 +31,36 @@ public final class Constants {
          * useful during initial testing of the robot.
          */
         public static final double MAX_VOLTAGE = 12.0;
+        public static final class DrivetrainGeometry{
+            /**
+             * The left-to-right distance between the drivetrain wheels Should be measured
+             * from center to center.
+             */
+            public static final double TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
+            /**
+             * The front-to-back distance between the drivetrain wheels. Should be measured
+             * from center to center.
+             */
+            public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
 
-        /**
-         * The maximum velocity of the robot in meters per second.
-         * <p>
-         * This is a measure of how fast the robot should be able to drive in a straight
-         * line.
-         */
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = FALCON_500_MAX_RPM / 60.0
-                * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
-                * Math.PI;
-        /**
-         * The maximum angular velocity of the robot in radians per second.
-         * <p>
-         * This is a measure of how fast the robot can rotate in place.
-         */
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
-                / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
-        public static final int PIGEON_ID = 0; // FIXME Set Pigeon ID
+            /**
+             * The maximum velocity of the robot in meters per second.
+             * <p>
+             * This is a measure of how fast the robot should be able to drive in a straight
+             * line.
+             */
+            public static final double MAX_VELOCITY_METERS_PER_SECOND = FALCON_500_MAX_RPM / 60.0
+                    * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
+                    * Math.PI;
+            /**
+             * The maximum angular velocity of the robot in radians per second.
+             * <p>
+             * This is a measure of how fast the robot can rotate in place.
+             */
+            public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
+                    / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
+        }
 
-        public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;
 
         public static final class FrontLeftSwerveConstants {
             public static final int STEER_MOTOR_ID = 1;

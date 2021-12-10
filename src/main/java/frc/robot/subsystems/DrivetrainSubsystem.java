@@ -4,12 +4,9 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
-import static frc.robot.Constants.DrivetrainConstants.MAX_VOLTAGE;
 import static frc.robot.Constants.DrivetrainConstants.PIGEON_ID;
 import static frc.robot.Constants.DrivetrainConstants.SWERVE_GEAR_RATIO;
-import static frc.robot.Constants.DrivetrainConstants.TRACKWIDTH_METERS;
-import static frc.robot.Constants.DrivetrainConstants.WHEELBASE_METERS;
+import static frc.robot.Constants.DrivetrainConstants.MAX_VOLTAGE;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
@@ -30,18 +27,19 @@ import frc.robot.Constants.DrivetrainConstants.BackLeftSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.BackRightSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.FrontLeftSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.FrontRightSwerveConstants;
+import frc.robot.Constants.DrivetrainConstants.DrivetrainGeometry;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
             // Front left
-            new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0),
+            new Translation2d(DrivetrainGeometry.TRACKWIDTH_METERS / 2.0, DrivetrainGeometry.WHEELBASE_METERS / 2.0),
             // Front right
-            new Translation2d(TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0),
+            new Translation2d(DrivetrainGeometry.TRACKWIDTH_METERS / 2.0, -DrivetrainGeometry.WHEELBASE_METERS / 2.0),
             // Back left
-            new Translation2d(-TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0),
+            new Translation2d(-DrivetrainGeometry.TRACKWIDTH_METERS / 2.0, DrivetrainGeometry.WHEELBASE_METERS / 2.0),
             // Back right
-            new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0));
+            new Translation2d(-DrivetrainGeometry.TRACKWIDTH_METERS / 2.0, -DrivetrainGeometry.WHEELBASE_METERS / 2.0));
 
     // FIX We need to figure out initial possition.
     private Pose2d m_pose = new Pose2d();
@@ -129,15 +127,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SwerveModuleState backLeftState = desiredStates[BackLeftSwerveConstants.STATES_INDEX];
         SwerveModuleState backRightState = desiredStates[BackRightSwerveConstants.STATES_INDEX];
 
-        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, MAX_VELOCITY_METERS_PER_SECOND);
+        SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND);
 
-        m_frontLeftModule.set(frontLeftState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_frontLeftModule.set(frontLeftState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 frontLeftState.angle.getRadians());
-        m_frontRightModule.set(frontRightState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_frontRightModule.set(frontRightState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 frontRightState.angle.getRadians());
-        m_backLeftModule.set(backLeftState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_backLeftModule.set(backLeftState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 backLeftState.angle.getRadians());
-        m_backRightModule.set(backRightState.speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_backRightModule.set(backRightState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 backRightState.angle.getRadians());
 
         m_pose = m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,

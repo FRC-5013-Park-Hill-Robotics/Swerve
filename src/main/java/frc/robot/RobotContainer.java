@@ -11,6 +11,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.DrivetrainConstants.DrivetrainGeometry;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -35,11 +36,11 @@ public class RobotContainer {
         // Right stick X axis -> rotation
         m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem,
                 () -> -modifyAxis(m_controller.getY(GenericHID.Hand.kLeft))
-                        * Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND,
+                        * DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND,
                 () -> -modifyAxis(m_controller.getX(GenericHID.Hand.kLeft))
-                        * Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND,
+                        * DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND,
                 () -> -modifyAxis(m_controller.getX(GenericHID.Hand.kRight))
-                        * Constants.DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+                        * DrivetrainGeometry.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
         // Configure the button bindings
         configureButtonBindings();
