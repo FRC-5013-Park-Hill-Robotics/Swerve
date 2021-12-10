@@ -45,11 +45,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private Pose2d m_pose = new Pose2d();
     private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, getGyroscopeRotation(), m_pose);
 
-    // By default we use a Pigeon for our gyroscope. But if you use another
-    // gyroscope, like a NavX, you can change this.
-    // The important thing about how you configure your gyroscope is that rotating
-    // the robot counter-clockwise should
-    // cause the angle reading to increase until it wraps back over to zero.
     private final PigeonIMU m_pigeon = new PigeonIMU(PIGEON_ID);
 
     // These are our modules. We initialize them in the constructor.
@@ -63,6 +58,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public DrivetrainSubsystem() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
+        //Creating the SwerveModules using SDS factory method.
         m_frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0),
                 SWERVE_GEAR_RATIO, FrontLeftSwerveConstants.DRIVE_MOTOR_ID, FrontLeftSwerveConstants.STEER_MOTOR_ID,
@@ -99,10 +95,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_pose = m_odometry.getPoseMeters();
     }
 
+    /*
+    * Return the gyroscope's heading as a Rotation2d object
+    */
     public Rotation2d getGyroscopeRotation() {
         return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
     }
 
+    /*
+    * Return the gyroscope's heading in Radians
+    */
     public double getHeading() {
         return getGyroscopeRotation().getRadians();
     }
