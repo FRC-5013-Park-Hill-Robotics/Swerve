@@ -22,7 +22,7 @@ public final class Constants {
 
 
     public static final class DrivetrainConstants {
-        public static final int PIGEON_ID = 0; // FIXME Set Pigeon ID
+        public static final int PIGEON_ID = 1; // FIXME Set Pigeon ID
         public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;
         /**
          * The maximum voltage that will be delivered to the drive motors.
@@ -63,33 +63,33 @@ public final class Constants {
 
 
         public static final class FrontLeftSwerveConstants {
-            public static final int STEER_MOTOR_ID = 1;
-            public static final int DRIVE_MOTOR_ID = 2;
-            public static final int ENCODER_ID = 3;
+            public static final int STEER_MOTOR_ID = 2;
+            public static final int DRIVE_MOTOR_ID = 3;
+            public static final int ENCODER_ID = 4;
             public static final double OFFSET = 0;
             public static final int STATES_INDEX = 0;
         }
 
         public static final class FrontRightSwerveConstants {
-            public static final int STEER_MOTOR_ID = 4;
-            public static final int DRIVE_MOTOR_ID = 5;
-            public static final int ENCODER_ID = 6;
+            public static final int STEER_MOTOR_ID = 5;
+            public static final int DRIVE_MOTOR_ID = 6;
+            public static final int ENCODER_ID = 7;
             public static final double OFFSET = 0;
             public static final int STATES_INDEX = 1;
         }
 
         public static final class BackLeftSwerveConstants {
-            public static final int STEER_MOTOR_ID = 7;
-            public static final int DRIVE_MOTOR_ID = 8;
-            public static final int ENCODER_ID = 9;
+            public static final int STEER_MOTOR_ID = 8;
+            public static final int DRIVE_MOTOR_ID = 9;
+            public static final int ENCODER_ID = 10;
             public static final double OFFSET = 0;
             public static final int STATES_INDEX = 2;
         }
 
         public static final class BackRightSwerveConstants {
-            public static final int STEER_MOTOR_ID = 10;
-            public static final int DRIVE_MOTOR_ID = 11;
-            public static final int ENCODER_ID = 12;
+            public static final int STEER_MOTOR_ID = 11;
+            public static final int DRIVE_MOTOR_ID = 12;
+            public static final int ENCODER_ID = 13;
             public static final double OFFSET = 0;
             public static final int STATES_INDEX = 3;
         }
