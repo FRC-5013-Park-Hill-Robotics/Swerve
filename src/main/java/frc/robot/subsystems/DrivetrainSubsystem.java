@@ -140,17 +140,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND);
 
-        m_frontLeftModule.set(frontLeftState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_frontLeftModule.set(velocityToDriveVolts(frontLeftState.speedMetersPerSecond),
                 frontLeftState.angle.getRadians());
-        m_frontRightModule.set(frontRightState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_frontRightModule.set(velocityToDriveVolts(frontRightState.speedMetersPerSecond),
                 frontRightState.angle.getRadians());
-        m_backLeftModule.set(backLeftState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_backLeftModule.set(velocityToDriveVolts(backLeftState.speedMetersPerSecond),
                 backLeftState.angle.getRadians());
-        m_backRightModule.set(backRightState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
+        m_backRightModule.set(velocityToDriveVolts(backRightState.speedMetersPerSecond),
                 backRightState.angle.getRadians());
 
     }
 
+    private double velocityToDriveVolts(double speedMetersPerSecond){
+        return speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+    }
+    
     public Pose2d getPose() {
         return m_pose;
     }
