@@ -119,10 +119,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        updateOdometry();
         updateDriveStates(m_desiredStates);
     }
 
-    public void updateDriveStates(SwerveModuleState[] desiredStates) {
+    private void updateOdometry(){
+        m_pose = m_odometry.update(getGyroscopeRotation(), stateFromModule(m_frontLeftModule),stateFromModule(m_frontRightModule),
+            stateFromModule(m_backLeftModule), stateFromModule(m_backRightModule));
+    }
+
+    private SwerveModuleState stateFromModule(SwerveModule swerveModule){
+        return new SwerveModuleState(swerveModule.getDriveVelocity(), new Rotation2d(swerveModule.getSteerAngle()));
+    }
+
+    private void updateDriveStates(SwerveModuleState[] desiredStates) {
         SwerveModuleState frontLeftState = desiredStates[FrontLeftSwerveConstants.STATES_INDEX];
         SwerveModuleState frontRightState = desiredStates[FrontRightSwerveConstants.STATES_INDEX];
         SwerveModuleState backLeftState = desiredStates[BackLeftSwerveConstants.STATES_INDEX];
@@ -139,8 +149,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_backRightModule.set(backRightState.speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                 backRightState.angle.getRadians());
 
-        m_pose = m_odometry.update(getGyroscopeRotation(), frontLeftState, frontRightState, backLeftState,
-                backRightState);
     }
 
     public Pose2d getPose() {
