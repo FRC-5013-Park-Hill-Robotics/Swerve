@@ -19,10 +19,11 @@ import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper.GearRatio;
  */
 public final class Constants {
     public static final int FALCON_500_MAX_RPM = 6380;
+    public static final int PDP_ID = 0;
 
 
     public static final class DrivetrainConstants {
-        public static final int PIGEON_ID = 1; // FIXME Set Pigeon ID
+        public static final int PIGEON_ID = 1; 
         public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;
         /**
          * The maximum voltage that will be delivered to the drive motors.
@@ -36,12 +37,12 @@ public final class Constants {
              * The left-to-right distance between the drivetrain wheels Should be measured
              * from center to center.
              */
-            public static final double TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
+            public static final double TRACKWIDTH_METERS = .590; 
             /**
              * The front-to-back distance between the drivetrain wheels. Should be measured
              * from center to center.
              */
-            public static final double WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
+            public static final double WHEELBASE_METERS = .590; 
 
             /**
              * The maximum velocity of the robot in meters per second.
