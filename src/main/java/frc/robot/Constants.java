@@ -67,15 +67,14 @@ public final class Constants {
             public static final int STEER_MOTOR_ID = 2;
             public static final int DRIVE_MOTOR_ID = 3;
             public static final int ENCODER_ID = 4;
-            public static final double OFFSET = 0;
-            public static final int STATES_INDEX = 0;
-        }
+            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(174); 
+            public static final int STATES_INDEX = 0;        }
 
         public static final class FrontRightSwerveConstants {
             public static final int STEER_MOTOR_ID = 5;
             public static final int DRIVE_MOTOR_ID = 6;
             public static final int ENCODER_ID = 7;
-            public static final double OFFSET = 0;
+            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(177);
             public static final int STATES_INDEX = 1;
         }
 
@@ -83,7 +82,7 @@ public final class Constants {
             public static final int STEER_MOTOR_ID = 8;
             public static final int DRIVE_MOTOR_ID = 9;
             public static final int ENCODER_ID = 10;
-            public static final double OFFSET = 0;
+            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(275.8); 
             public static final int STATES_INDEX = 2;
         }
 
@@ -91,7 +90,7 @@ public final class Constants {
             public static final int STEER_MOTOR_ID = 11;
             public static final int DRIVE_MOTOR_ID = 12;
             public static final int ENCODER_ID = 13;
-            public static final double OFFSET = 0;
+            public static final double ENCODER_OFFSET_RADIANS =  -Math.toRadians(315.7);
             public static final int STATES_INDEX = 3;
         }
 

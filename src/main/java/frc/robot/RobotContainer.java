@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -24,6 +26,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
     private final LogitechController m_controller = new LogitechController(0);
+    private PowerDistributionPanel m_pdp = new PowerDistributionPanel(PDP_ID);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
