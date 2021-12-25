@@ -21,7 +21,10 @@ public final class Constants {
     public static final int FALCON_500_MAX_RPM = 6380;
     public static final int PDP_ID = 0;
 
-
+    public static final class ControllerConstants {
+        public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final double DEADBAND = 0.05;
+    }
     public static final class DrivetrainConstants {
         public static final int PIGEON_ID = 1; 
         public static final GearRatio SWERVE_GEAR_RATIO = GearRatio.L2;

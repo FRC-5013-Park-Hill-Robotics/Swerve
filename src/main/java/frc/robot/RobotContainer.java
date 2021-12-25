@@ -8,12 +8,11 @@ import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.GamepadDrive;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.DrivetrainConstants.DrivetrainGeometry;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,7 +24,7 @@ import frc.robot.Constants.DrivetrainConstants.DrivetrainGeometry;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-    private final LogitechController m_controller = new LogitechController(0);
+    private final LogitechController m_controller = new LogitechController(ControllerConstants.DRIVER_CONTROLLER_PORT);
     private PowerDistributionPanel m_pdp = new PowerDistributionPanel(PDP_ID);
 
     /**
@@ -37,14 +36,7 @@ public class RobotContainer {
         // Left stick Y axis -> forward and backwards movement
         // Left stick X axis -> left and right movement
         // Right stick X axis -> rotation
-        m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(m_drivetrainSubsystem,
-                () -> -modifyAxis(m_controller.getY(GenericHID.Hand.kLeft))
-                        * DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND,
-                () -> -modifyAxis(m_controller.getX(GenericHID.Hand.kLeft))
-                        * DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND,
-                () -> -modifyAxis(m_controller.getX(GenericHID.Hand.kRight))
-                        * DrivetrainGeometry.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-
+        m_drivetrainSubsystem.setDefaultCommand(new GamepadDrive(m_drivetrainSubsystem, m_controller));
         // Configure the button bindings
         configureButtonBindings();
 
@@ -73,25 +65,4 @@ public class RobotContainer {
         return new InstantCommand();
     }
 
-    private static double deadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
-    }
-
-    private static double modifyAxis(double value) {
-        // Deadband
-        value = deadband(value, 0.05);
-
-        // Square the axis
-        value = Math.copySign(value * value, value);
-
-        return value;
-    }
 }
