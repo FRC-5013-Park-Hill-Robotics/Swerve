@@ -13,6 +13,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -25,10 +26,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants.DrivetrainConstants.BackLeftSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.BackRightSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.FrontLeftSwerveConstants;
 import frc.robot.Constants.DrivetrainConstants.FrontRightSwerveConstants;
+import frc.robot.Constants.DrivetrainConstants.TranslationGains;
 import frc.robot.Constants.DrivetrainConstants.DrivetrainGeometry;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -55,6 +58,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule m_backRightModule;
 
     private SwerveModuleState[] m_desiredStates;
+
+    private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(TranslationGains.kS, TranslationGains.kV, TranslationGains.kA);
 
     public DrivetrainSubsystem() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -156,7 +161,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     private double velocityToDriveVolts(double speedMetersPerSecond){
-        return speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double ff = m_feedForward.calculate(speedMetersPerSecond);
+        return MathUtil.clamp(ff, -MAX_VOLTAGE, MAX_VOLTAGE);
+        //    return speedMetersPerSecond / DrivetrainGeometry.MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
     }
     
     public Pose2d getPose() {

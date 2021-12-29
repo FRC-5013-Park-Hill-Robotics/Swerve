@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.GamepadDrive;
+import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -53,6 +53,7 @@ public class RobotContainer {
         new JoystickButton(m_controller, LogitechController.Button.kBack.value)
                 // No requirements because we don't need to interrupt anything
                 .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+        new JoystickButton(m_controller, LogitechController.Button.kA.value).whenPressed(new TurnToAngleCommand(m_drivetrainSubsystem, Math.PI) );
     }
 
     /**
@@ -62,7 +63,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new InstantCommand();
+        return AutonomousCommandFactory.createAutonomous(m_drivetrainSubsystem);
     }
 
 }
