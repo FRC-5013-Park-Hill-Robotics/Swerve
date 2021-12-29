@@ -41,11 +41,13 @@ public class GamepadDrive extends CommandBase {
     private double getXTranslationMetersPerSecond() {
         // on the controller y is up, on the field x is away from the driver
         return -percentOutputToMetersPerSecond(xLimiter.calculate(modifyAxis(m_gamepad.getY(GenericHID.Hand.kLeft))));
+        //return -percentOutputToMetersPerSecond(modifyAxis(m_gamepad.getY(GenericHID.Hand.kLeft)));
     }
 
     private double getYTranslationMetersPerSecond() {
         // on the controller y is up, on the field x is away from the driver
         return -percentOutputToMetersPerSecond(yLimiter.calculate(modifyAxis(m_gamepad.getX(GenericHID.Hand.kLeft))));
+        //return -percentOutputToMetersPerSecond(modifyAxis(m_gamepad.getX(GenericHID.Hand.kLeft)));
     }
 
     private double getRotationRadiansPerSecond() {

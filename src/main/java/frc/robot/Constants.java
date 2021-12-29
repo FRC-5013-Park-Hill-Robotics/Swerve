@@ -70,14 +70,14 @@ public final class Constants {
             public static final int STEER_MOTOR_ID = 2;
             public static final int DRIVE_MOTOR_ID = 3;
             public static final int ENCODER_ID = 4;
-            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(174); 
+            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(176); 
             public static final int STATES_INDEX = 0;        }
 
         public static final class FrontRightSwerveConstants {
             public static final int STEER_MOTOR_ID = 5;
             public static final int DRIVE_MOTOR_ID = 6;
             public static final int ENCODER_ID = 7;
-            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(177);
+            public static final double ENCODER_OFFSET_RADIANS = -Math.toRadians(177.2);
             public static final int STATES_INDEX = 1;
         }
 
@@ -93,13 +93,13 @@ public final class Constants {
             public static final int STEER_MOTOR_ID = 11;
             public static final int DRIVE_MOTOR_ID = 12;
             public static final int ENCODER_ID = 13;
-            public static final double ENCODER_OFFSET_RADIANS =  -Math.toRadians(315.7);
+            public static final double ENCODER_OFFSET_RADIANS =  -Math.toRadians(315.6);
             public static final int STATES_INDEX = 3;
         }
 
         //Turning the bot gains used by PIDControllers
         public static final class ThetaGains {
-            public static final double kP = .2;
+            public static final double kP = 4;
             public static final double kI = 0;
             public static final double kD = 0;
             public static final double kTurnToleranceRad = 0.025; //used on profiled pid controllers
@@ -108,9 +108,12 @@ public final class Constants {
 
         //Driving the bot gains used by PIDControllers
         public static final class TranslationGains {
-            public static final double kP = .2;
+            public static final double kP = 2.2956;
             public static final double kI = 0;
             public static final double kD = 0;
+            public static final double kA = 0.12872;
+            public static final double kV = 2.3014;
+            public static final double kS = 0.55493;
         }
 
     }
