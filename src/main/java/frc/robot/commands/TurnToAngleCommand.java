@@ -15,11 +15,11 @@ public class TurnToAngleCommand extends PIDCommand {
                 // Pipe the output to the turning controls
                 output -> driveTrain
                         .drive(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, output, driveTrain.getGyroscopeRotation())));
-        getController().setTolerance(kTurnToleranceRad);
+        getController().setTolerance(kTurnToleranceRad,kTurnRateToleranceRadPerS);
     }
  @Override
  public boolean isFinished(){
-     return getController().atSetpoint();
+     return getController().atSetpoint() ;
  }
    
 

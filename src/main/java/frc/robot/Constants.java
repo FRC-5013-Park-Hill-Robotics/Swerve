@@ -102,8 +102,8 @@ public final class Constants {
             public static final double kP = 4;
             public static final double kI = 0;
             public static final double kD = 0;
-            public static final double kTurnToleranceRad = 0.025; //used on profiled pid controllers
-            public static final double kTurnRateToleranceRadPerS = .17; //used on profiled pid controllers
+            public static final double kTurnToleranceRad = 0.025; 
+            public static final double kTurnRateToleranceRadPerS = .17;
         }
 
         //Driving the bot gains used by PIDControllers

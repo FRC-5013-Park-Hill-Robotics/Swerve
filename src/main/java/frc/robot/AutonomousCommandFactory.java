@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -23,8 +24,8 @@ public class AutonomousCommandFactory {
 
     public static SwerveControllerCommand createSwerveControllerCommand(Trajectory trajectory,
             DrivetrainSubsystem drivetrain) {
-        Constraints constraints = new TrapezoidProfile.Constraints(ThetaGains.kTurnToleranceRad,
-                ThetaGains.kTurnRateToleranceRadPerS);
+        Constraints constraints = new TrapezoidProfile.Constraints(DrivetrainGeometry.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+        2*DrivetrainGeometry.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
         ProfiledPIDController thetaController = new ProfiledPIDController(ThetaGains.kP, ThetaGains.kI, ThetaGains.kD,
                 constraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -54,12 +55,12 @@ public class AutonomousCommandFactory {
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(Math.PI)),
+            List.of(new Translation2d(.66, .5), new Translation2d(1.33, -.5)),
+            // End 3 meters straight ahead of where we started, facing Backward
+            new Pose2d(2, 0, new Rotation2d(Math.PI)),
             // Pass config
             config);
-
+            
         return createSwerveControllerCommand(t, drivetrain);
     }
 }
