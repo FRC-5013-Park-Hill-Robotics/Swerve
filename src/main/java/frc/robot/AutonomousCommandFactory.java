@@ -34,7 +34,6 @@ public class AutonomousCommandFactory {
                 drivetrain.getKinematics(),
                 new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD),
                 new PIDController(TranslationGains.kP, TranslationGains.kI, TranslationGains.kD), thetaController,
-                () -> new Rotation2d(Math.PI),
                 drivetrain::setDesiredStates, drivetrain);
         return swerveControllerCommand;
     }
